@@ -411,6 +411,9 @@ class AndroidBrowser {
         //      urlBarToClick = await findElementWithId(this.client, this.packageName, this.urlBarClick);
       }
     }
+    if (urlBarToClick === undefined) {
+      throw new Error(`no url-bar element found for ${this.browser}`);
+    }
     await this.client.elementClick(urlBarToClick);
     await sleepMs(1000);
     if (this.urlBarClear) {
@@ -418,6 +421,9 @@ class AndroidBrowser {
       await this.client.elementClick(clearButton);
     }
     const urlBarToSendKeys = await findElement(this.client, this.packageName, this.urlBarKeys);
+    if (urlBarToSendKeys === undefined) {
+      throw new Error(`no url-bar text field found for ${this.browser}`);
+    }
     await this.client.elementClear(urlBarToSendKeys);
     await this.client.elementSendKeys(urlBarToSendKeys, url);
     await this.client.appiumPressKeyCode(KEY_ENTER);
@@ -446,11 +452,17 @@ class AndroidBrowser {
 
   static async logUiHierarchy (label = 'UI hierarchy') {
     try {
-      if (!webdriverSession.cache || webdriverSession.cache.size === 0) {
+      // lodash memoize uses a MapCache (get/set/has/size), not a real Map.
+      const cache = webdriverSession.cache;
+      if (!cache || cache.size === 0) {
         console.log('No Appium session for UI dump');
         return;
       }
-      const client = await webdriverSession.cache.values().next().value;
+      const client = await (cache.get('local') ?? cache.get('browserstack'));
+      if (!client) {
+        console.log('No Appium session for UI dump');
+        return;
+      }
       console.log(`${label}:\n`, await client.getPageSource());
     } catch (dumpError) {
       console.log('Failed to dump UI hierarchy:', dumpError);

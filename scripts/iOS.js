@@ -249,11 +249,18 @@ class IOSBrowser {
 
   static async logUiHierarchy (label = 'UI hierarchy') {
     try {
-      if (!webdriverSession.cache || webdriverSession.cache.size === 0) {
+      // lodash memoize uses a MapCache (get/set/has/size), not a real Map.
+      // webdriverSession() is called with no args, so the cache key is undefined.
+      const cache = webdriverSession.cache;
+      if (!cache || cache.size === 0) {
         console.log('No Appium session for UI dump');
         return;
       }
-      const client = await webdriverSession.cache.values().next().value;
+      const client = await cache.get(undefined);
+      if (!client) {
+        console.log('No Appium session for UI dump');
+        return;
+      }
       console.log(`${label}:\n`, await client.getPageSource());
     } catch (dumpError) {
       console.log('Failed to dump UI hierarchy:', dumpError);
