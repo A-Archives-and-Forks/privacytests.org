@@ -30,15 +30,22 @@ const generateHtmlFile = async (filename) => {
   const previewImage = htmlPath.replace('.html', '-preview.png');
   console.log({ htmlPath, previewImage });
   await createPreviewImage(htmlPath, previewImage);
+  return [newFilename, previewFilename];
 };
 
-// The main program. Read all the Markdown files in the "copy" directory and
-// generate an html file for each of them in the "out" directory.
-const main = async () => {
+// Read all the Markdown files in the "copy" directory and
+// generate an html file for each of them in the website directory.
+const generateCopyPages = async () => {
   const filenames = fs.readdirSync('../assets/copy').filter(x => x.endsWith('.md') && !x.startsWith('.'));
+  const generated = [];
   for (const filename of filenames) {
-    await generateHtmlFile(filename);
+    generated.push(...await generateHtmlFile(filename));
   }
+  return generated;
 };
 
-main();
+if (require.main === module) {
+  generateCopyPages();
+}
+
+module.exports = { generateCopyPages };
