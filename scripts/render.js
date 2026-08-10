@@ -57,7 +57,7 @@ const browserLogoDataUri = _.memoize((browserName, nightly) => {
       return dataUriFromFile('../assets/icons/unknown.svg');
     }
   }
-});
+}, (browserName, nightly) => `${browserName}:${!!nightly}`);
 
 // Deep-copy a JSON structure (by value)
 const deepCopy = (json) => JSON.parse(JSON.stringify(json));
@@ -329,12 +329,16 @@ const resultsToTable = (results, title, subtitle, desktopOnly, testMyBrowser) =>
   for (const { category, name, description, tagline, tooltipType } of sections) {
     if (!(!desktopOnly && ['tracker_cookies', 'dns'].includes(category)) &&
         !(testMyBrowser && ['session_1p', 'session_3p', 'dns', 'tracker_cookies'].includes(category))) {
-      body.push([{ subheading: name, description, tagline }]);
-      body = body.concat(resultsSection({
+      const sectionRows = resultsSection({
         bestResults,
         category,
         tooltipFunction: tooltipFunctions[tooltipType]
-      }));
+      });
+      if (sectionRows.length === 0) {
+        continue;
+      }
+      body.push([{ subheading: name, description, tagline }]);
+      body = body.concat(sectionRows);
     }
   }
   return { headers, body };
