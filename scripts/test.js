@@ -237,11 +237,18 @@ const runPageTest = async (browserSession, url, timeout) => {
   const sessionId = browserSession.websocket._sessionId;
   log('runPageTest: waiting for result', { sessionId, url, timeout });
   const nextItemPromise = nextBrowserValue(browserSession, timeout);
-  await openSessionUrl(browserSession, url);
-  log('runPageTest: opened url', { sessionId, url });
-  const result = await nextItemPromise;
-  log('runPageTest: received result', { sessionId, url });
-  return result;
+  try {
+    await openSessionUrl(browserSession, url);
+    log('runPageTest: opened url', { sessionId, url });
+    const result = await nextItemPromise;
+    log('runPageTest: received result', { sessionId, url });
+    return result;
+  } catch (e) {
+    // If openUrl fails, a later websocket close must not become an unhandled
+    // rejection (that aborts UI hierarchy dumps mid-flight).
+    nextItemPromise.catch(() => {});
+    throw e;
+  }
 };
 
 const isMobileBrowser = (browser) =>
@@ -259,15 +266,20 @@ const runMainTests = async (browserSession, categories) => {
     throw new Error('failed to get signal that the supercookie write finished');
   }
   const resultsPromise = nextBrowserValue(browserSession);
-  // Open a new tab.
-  await openSessionUrl(browserSession, `${kIframeRootSame}/supercookies.html?mode=read&thirdparty=same`);
-  const results = await resultsPromise;
-  // DuckDuckGo needs some personal validation
-  if (browserSession.browser instanceof AndroidBrowser) {
-    await browserSession.browser.highFiveIfNecessary();
+  try {
+    // Open a new tab.
+    await openSessionUrl(browserSession, `${kIframeRootSame}/supercookies.html?mode=read&thirdparty=same`);
+    const results = await resultsPromise;
+    // DuckDuckGo needs some personal validation
+    if (browserSession.browser instanceof AndroidBrowser) {
+      await browserSession.browser.highFiveIfNecessary();
+    }
+    // Return the main results.
+    return results;
+  } catch (e) {
+    resultsPromise.catch(() => {});
+    throw e;
   }
-  // Return the main results.
-  return results;
 };
 
 // Combine same-session results with cross-session results.
@@ -325,10 +337,15 @@ const runInsecureTest = async (browserSession) => {
   try {
     const timeout = (browserSession.browser instanceof DesktopBrowser) ? 8000 : 30000;
     const insecureResultPromise = nextBrowserValue(browserSession, timeout);
-    await openSessionUrl(browserSession, `${kInsecureRoot}/insecure.html`);
-    log('now trying');
-    insecureResult = await insecureResultPromise;
-    insecurePassed = false;
+    try {
+      await openSessionUrl(browserSession, `${kInsecureRoot}/insecure.html`);
+      log('now trying');
+      insecureResult = await insecureResultPromise;
+      insecurePassed = false;
+    } catch (e) {
+      insecureResultPromise.catch(() => {});
+      throw e;
+    }
   } catch (e) {
     insecureResult = { 'Insecure website warning': { passed: true, result: 'Insecure website never loaded' } };
     insecurePassed = true;
