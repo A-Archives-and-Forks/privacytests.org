@@ -16,6 +16,7 @@
 const fs = require('fs');
 const path = require('node:path');
 const minimist = require('minimist');
+const { groupBy, maxBy } = require('lodash');
 const { render } = require('./render');
 
 const PAGE_NAMES = [
@@ -81,6 +82,26 @@ const mergeResultsFiles = (files) => {
   return merged;
 };
 
+// Per browser, keep only the most common reportedVersion (drops mid-run updates).
+const removeMinorityVersions = (files) => {
+  const parsed = files.map(filePath => {
+    const test = JSON.parse(fs.readFileSync(filePath, 'utf8')).all_tests[0];
+    return {
+      filePath,
+      key: `${test.browser}${test.tor ? '-tor' : ''}`,
+      version: test.reportedVersion
+    };
+  });
+  return Object.values(groupBy(parsed, 'key')).flatMap(entries => {
+    const byVersion = groupBy(entries, 'version');
+    const best = maxBy(Object.keys(byVersion), v => byVersion[v].length);
+    if (Object.keys(byVersion).length > 1) {
+      console.log(`removeMinorityVersions ${entries[0].key}: keeping ${byVersion[best].length}× ${best}`);
+    }
+    return byVersion[best].map(e => e.filePath);
+  });
+};
+
 const renderPageFromFiles = async ({ name, files, outDir, aggregate }) => {
   if (files.length === 0) {
     throw new Error(`No JSON files found for ${name}`);
@@ -107,7 +128,7 @@ const main = async () => {
     }
     await renderPageFromFiles({
       name,
-      files: buckets[name],
+      files: removeMinorityVersions(buckets[name]),
       outDir,
       aggregate: aggregate === true
     });
@@ -121,4 +142,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { bucketFiles, pageFromBasename, walkJsonFiles, PAGE_NAMES };
+module.exports = { bucketFiles, pageFromBasename, walkJsonFiles, removeMinorityVersions, PAGE_NAMES };
