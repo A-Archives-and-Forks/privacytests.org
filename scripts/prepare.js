@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('node:path');
 const { execSync } = require('child_process');
 const { compareAndCheck } = require('./check.js');
+const { generateCopyPages } = require('./copy.js');
 const { getWebsiteDir } = require('./website-dir.js');
 const minimist = require('minimist');
 
@@ -157,6 +158,10 @@ const main = async () => {
   copyDirFilesAndGitAdd(resultsPath, archivePath, allowedSuffixes);
   copyDirFilesAndGitAdd(resultsPath, indexPath, allowedSuffixes);
   updateNewsCopy({ issueNumber, date });
+  const copyFiles = await generateCopyPages();
+  for (const file of copyFiles) {
+    gitAdd(indexPath, file);
+  }
 };
 
 if (require.main === module) {
