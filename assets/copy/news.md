@@ -1,5 +1,84 @@
 # News
-## [Issue 95](/archive/issue95): ../r-es-ul
+## [Issue 96](/archive/issue96): 2026-08-10
+
+### New browser versions
+
+On Desktop:
+* Brave 1.93
+* Chrome 151.0
+* Duckduckgo 1.202
+* Edge 151.0
+* Firefox 153.0
+* Librewolf 153.0-3
+* Mullvad 15.0
+* Opera 134.0
+* Safari 26.5
+* Tor 15.0
+* Ungoogled 150.0
+* Vivaldi 8.1
+
+On iOS:
+* Brave 1.92
+* Chrome 151.7922
+* Duckduckgo 7.231
+* Edge 151.4129
+* Firefox 153.2
+* Focus 151.3
+* Safari 26.6
+* Vivaldi 8.4098
+
+On Android:
+* Brave 1.93
+* Chrome 150.0
+* Duckduckgo 5.291
+* Edge 150.0
+* Firefox 153.0
+* Focus 153.0
+* Opera 100.2
+* Samsung 30.0
+* Tor 15.0
+* Vivaldi 8.1
+* Yandex 26.6
+
+## [Issue 95](/archive/issue95): 2025-08-12
+
+
+### New browser versions
+
+On Desktop:
+* Brave 1.81
+* Chrome 139.0
+* Duckduckgo 1.150
+* Edge 139.0
+* Mullvad 14.5
+* Opera 120.0
+* Safari 18.6
+* Ungoogled 139.0
+* Vivaldi 7.5
+
+On iOS:
+* Brave 1.80
+* Chrome 139.7258
+* Duckduckgo 7.180
+* Edge 139.3405
+* Focus 141.0
+* Opera 6.0
+* Safari 18.6
+* Vivaldi 7.3737
+* Yandex 2507.6
+
+On Android:
+* Brave 1.81
+* Chrome 139.0
+* Duckduckgo 5.243
+* Edge 138.0
+* Firefox 141.0
+* Focus 141.0
+* Opera 90.6
+* Samsung 28.0
+* Tor 14.5
+* Vivaldi 7.5
+* Yandex 25.6
 
 ## [Issue 94](/archive/issue94): 2025-02-25
 
