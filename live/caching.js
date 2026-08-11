@@ -213,7 +213,7 @@ app.get('/toplevel.html', (req, res) => {
     <script src="https://test-pages.privacytests2.org/post_data.js"></script>
     <script>
       const results = {
-        "IP address leak": {
+        "IP address hidden": {
           "ipAddress": "${ip}",
           "description": "IP addresses can be used to uniquely identify a large percentage of users. A proxy, VPN, or Tor can mask a user's IP address."
         },

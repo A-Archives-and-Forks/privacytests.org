@@ -215,10 +215,10 @@ const kHstsRoot = 'https://hsts.privacytests2.org';
 const ipAddressTest = async (results) => {
   const myIpAddress = await fetchIpAddress();
   log('ipAddressTest', { results });
-  const { description, ipAddress } = results['IP address leak'];
+  const { description, ipAddress } = results['IP address hidden'];
   log({ myIpAddress, deviceIpAddress: ipAddress });
   return {
-    'IP address leak': {
+    'IP address hidden': {
       description,
       passed: ipAddress !== myIpAddress
     }
