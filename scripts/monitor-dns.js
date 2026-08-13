@@ -1,7 +1,6 @@
 const net = require('net');
 const { exec } = require('node:child_process');
 
-
 const LISTENING_PORT = 9999;
 
 const clients = new Set();
@@ -11,7 +10,7 @@ const setupServer = () => {
     // Allow local connections only
     if (!['::1', '127.0.0.1', 'localhost', '::ffff:127.0.0.1'].includes(client.remoteAddress)) {
       client.destroy();
-      console.log(`Rejected connection from ${client.remoteAddress}.`)
+      console.log(`Rejected connection from ${client.remoteAddress}.`);
       return;
     }
     client.on('data', () => {
@@ -36,7 +35,7 @@ const runTcpDump = () => {
       } catch (e) {
         console.log(e);
       }
-    })
+    });
   });
   proc.on('exit', () => {
     runTcpDump();

@@ -1,15 +1,15 @@
+/* global postDataAndCarryOn */
+
 // # Miscellaneous tests
 
 const runTests = async () => {
   const urlParams = new URLSearchParams(window.location.search);
-  const sessionId = urlParams.get("sessionId");
-  const paramsFound = urlParams.keys();
-  let results = {};
-  for (const param of paramsFound) {
+  const results = {};
+  for (const param of urlParams.keys()) {
     results[param] = urlParams.get(param);
   }
   console.log(results);
-  await postDataAndCarryOn(results, "query");
+  await postDataAndCarryOn(results, 'query');
 };
 
 runTests();

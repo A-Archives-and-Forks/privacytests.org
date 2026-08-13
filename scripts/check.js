@@ -5,9 +5,7 @@ const { zipObject } = require('lodash');
 const jsonDiff = require('json-diff');
 const minimist = require('minimist');
 
-const printJSON = (data) => console.log(JSON.stringify(data, undefined, "  "));
-
-const deepCopy = (data) => JSON.parse(JSON.stringify(data));
+const printJSON = (data) => console.log(JSON.stringify(data, undefined, '  '));
 
 const validURL = potentialUrl => {
   try {
@@ -39,8 +37,8 @@ const readBrowserVersionsFromNodes = (pageNodes) =>
       let name = chunks[0];
       const version = chunks[1];
       const windowType = chunks[2] ? chunks[2].toLowerCase() : undefined;
-      if (windowType === "tor") {
-        name += "-tor";
+      if (windowType === 'tor') {
+        name += '-tor';
       }
       return [name, version];
     }));
@@ -98,32 +96,32 @@ const printComparison = async (inputFiles1, inputFiles2) => {
 };
 
 const standardFiles = [
-  "index",
-  "private",
-  "ios",
-  "android",
-  "nightly",
-  "nightly-private",
+  'index',
+  'private',
+  'ios',
+  'android',
+  'nightly',
+  'nightly-private'
 ];
 
 const compareResults = async (dateString) => {
-  const resultsPath = path.join("../results/", dateString);
+  const resultsPath = path.join('../results/', dateString);
   const comparison = {};
   for (const standardFile of standardFiles) {
     const filename = `${standardFile}.html`;
     console.log(`Checking ${filename}...`);
     comparison[standardFile] =
       await comparePages(`https://privacytests.org/${filename}`,
-                         path.join(resultsPath, filename));
+        path.join(resultsPath, filename));
   }
   return comparison;
 };
 
 const checkResults = (results) => {
   for (const page of Object.keys(results)) {
-    if (results[page]["results"] !== undefined ||
-        results[page]["browserNames"] !== undefined) {
-      throw new Error("Unexpected test results!");
+    if (results[page].results !== undefined ||
+        results[page].browserNames !== undefined) {
+      throw new Error('Unexpected test results!');
     }
   }
 };
@@ -137,7 +135,7 @@ const compareAndCheck = async (dateString, ignore = false) => {
 };
 
 const readCurrentIssueNumber = async () => {
-  const content = await slurp("https://privacytests.org");
+  const content = await slurp('https://privacytests.org');
   const nodes = parse(content);
   return readIssueNumberFromNodes(nodes);
 };
@@ -145,7 +143,7 @@ const readCurrentIssueNumber = async () => {
 const main = () => {
   const { _: inputFiles } = minimist(process.argv.slice(2));
   if (inputFiles[0] === undefined) {
-    console.log("Please provide a path to check.");
+    console.log('Please provide a path to check.');
   }
   if (inputFiles[1] === undefined) {
     inputFiles.unshift(`https://privacytests.org/${path.basename(inputFiles[0])}`);

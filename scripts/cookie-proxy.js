@@ -70,9 +70,9 @@ const beforeRequestReadCookie = async (request, debug) => {
 
 const readOutgoingData = async (request) => {
   console.log(request);
-}
+};
 
-const runMitmProxy = async ({port, beforeResponse, beforeRequest, debug}) => {
+const runMitmProxy = async ({ port, beforeResponse, beforeRequest, debug }) => {
   // Allows us to match requests to responses.
   const certPaths = await cert.setupCertificate();
   // Create a proxy server with a self-signed HTTPS CA certificate:
@@ -117,8 +117,8 @@ const watchTelemetry = async (port, debug = false) => {
     beforeResponse: () => {},
     debug
   });
-  console.log('Watching telemetry')
-}
+  console.log('Watching telemetry');
+};
 
 // Returns the list of leaky hosts.
 const getLeakyHosts = (sessionId) => hostsThatLeak[sessionId];
@@ -134,4 +134,4 @@ if (require.main === module) {
   // stopTrackingCookieSimulation();
 }
 
-module.exports = { simulateTrackingCookies, getLeakyHosts, stopMitmProxy };
+module.exports = { simulateTrackingCookies, getLeakyHosts, stopMitmProxy, watchTelemetry };

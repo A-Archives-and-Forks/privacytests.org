@@ -225,3 +225,5 @@ const run_all_tests = async function () {
   return list_to_map(all_tests,
     x => x.name ?? (x.expression + (x.worker ? ' [Worker]' : '')));
 };
+
+window.run_all_tests = run_all_tests;

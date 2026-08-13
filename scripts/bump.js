@@ -1,6 +1,6 @@
 const path = require('node:path');
 
-const { readCurrentIssueNumber} = require('./check.js');
+const { readCurrentIssueNumber } = require('./check.js');
 const fs = require('node:fs/promises');
 
 const maybeBumpIssueNumber = async () => {
@@ -11,7 +11,7 @@ const maybeBumpIssueNumber = async () => {
     const lastIssueNumberInteger = parseInt(publishedIssueNumber);
     const newIssueNumber = (lastIssueNumberInteger + 1).toString();
     fs.writeFile('issue-number', `${newIssueNumber}\n`);
-    console.log(`Bumped local issue number from ${issueNumberFileContents} to ${newIssueNumber}`)
+    console.log(`Bumped local issue number from ${issueNumberFileContents} to ${newIssueNumber}`);
   }
 };
 

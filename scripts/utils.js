@@ -64,7 +64,7 @@ const killProcessAndDescendants = (pid) => {
 
 const killProcessesWithPattern = (pattern) => {
   execSync(`pkill -f "${pattern}"`);
-}
+};
 
 // Read a YAML file from disk.
 const readYAMLFile = (file) => {

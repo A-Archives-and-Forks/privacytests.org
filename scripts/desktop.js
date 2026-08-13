@@ -55,14 +55,14 @@ const fixChromePreferences = async (file) => {
 
 const fixZenPreferences = async (file) => {
   let content = (await fsPromises.readFile(file)).toString();
-  if (content.includes("zen.welcome-screen.seen")) {
+  if (content.includes('zen.welcome-screen.seen')) {
     content = content.replace(
       'user_pref("zen.welcome-screen.seen", false)',
-      'user_pref("zen.welcome-screen.seen", true)')
+      'user_pref("zen.welcome-screen.seen", true)');
   } else {
-    content += '\nuser_pref("zen.welcome-screen.seen", true);'
+    content += '\nuser_pref("zen.welcome-screen.seen", true);';
   }
-  await fsPromises.writeFile(file, content)
+  await fsPromises.writeFile(file, content);
 };
 
 const firefoxPreferenceEntries = () => {
@@ -72,7 +72,7 @@ const firefoxPreferenceEntries = () => {
     ['termsofuse.acceptedDate', acceptedDate],
     ['browser.termsofuse.prefMigrationCheck', true],
     ['trailhead.firstrun.didSeeAboutWelcome', true],
-    ['security.enterprise_roots.enabled', true],
+    ['security.enterprise_roots.enabled', true]
   ];
 };
 
@@ -108,15 +108,15 @@ const fixTorPreferences = async (file) => {
   await setFirefoxPreferences(file, [
     ...firefoxPreferenceEntries(),
     ['torbrowser.settings.quickstart.enabled', true],
-    ['extensions.torlauncher.prompt_at_startup', false],
+    ['extensions.torlauncher.prompt_at_startup', false]
   ]);
   console.log('fixed Tor Browser preferences in', file);
 };
 
 const fixSafari = (incognito, nightly) => {
-  const name = nightly ? "SafariTechnologyPreview" : "Safari"
+  const name = nightly ? 'SafariTechnologyPreview' : 'Safari';
   execSync(`defaults write com.apple.${name} AlwaysRestoreSessionAtLaunch -bool false`);
-  execSync(`defaults write com.apple.${name} OpenPrivateWindowWhenNotRestoringSessionAtLaunch -bool ${incognito ? "true" : "false"}`);
+  execSync(`defaults write com.apple.${name} OpenPrivateWindowWhenNotRestoringSessionAtLaunch -bool ${incognito ? 'true' : 'false'}`);
 };
 
 // A Browser object represents a browser we run tests on.
@@ -193,7 +193,7 @@ class DesktopBrowser {
         await fixChromePreferences(path.join(this._profilePath, 'Default', 'Preferences'));
       }
       if (this.browser === 'zen') {
-        await fixZenPreferences(path.join(this._profilePath, "prefs.js"))
+        await fixZenPreferences(path.join(this._profilePath, 'prefs.js'));
       }
     }
     if (this.browser === 'firefox' || this.browser === 'mullvad' || this.browser === 'librewolf') {
@@ -337,8 +337,8 @@ class DesktopBrowser {
 
   static getScreenResolution () {
     const response = execSync('system_profiler SPDisplaysDataType | grep "UI Looks like:"').toString();
-    const [, width, height] = response.match(/(\d+)\sx\s(\d+)/)
-    return { width: parseInt(width), height: parseInt(height)}
+    const [, width, height] = response.match(/(\d+)\sx\s(\d+)/);
+    return { width: parseInt(width), height: parseInt(height) };
   }
 
   static hasTorWindows (browserName) {
@@ -348,7 +348,7 @@ class DesktopBrowser {
   static killAll (browserNames) {
     const appNames = browserNames.map(name => macOSdefaultBrowserSettings[name].name);
     console.log(appNames);
-    killProcessesWithPattern(appNames.join("|"));
+    killProcessesWithPattern(appNames.join('|'));
   }
 }
 

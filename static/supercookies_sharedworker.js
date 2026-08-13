@@ -1,16 +1,19 @@
-var secret = "none";
-//throw new Error("fake");
-console.log("hello from sharedworker");
+/* eslint-env sharedworker */
+/* global self */
 
-onconnect = function(e) {
-  var port = e.ports[0];
+let secret = 'none';
+// throw new Error("fake");
+console.log('hello from sharedworker');
+
+self.onconnect = function (e) {
+  const port = e.ports[0];
 
   port.onmessage = function (e) {
-    if (e.data === "request") {
+    if (e.data === 'request') {
       port.postMessage(secret);
     } else {
       secret = e.data;
-      port.postMessage("received");
+      port.postMessage('received');
     }
   };
 };
