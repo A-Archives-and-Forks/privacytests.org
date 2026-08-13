@@ -1,6 +1,15 @@
 # News
 ## [Issue 96](/archive/issue96): 2026-08-10
 
+After a long hiatus, PrivacyTests is back! Thanks to everyone for your patience.
+
+The biggest change since last issue is that we are orchestrating the tests on GitHub Actions! All desktop tests now run on macOS instances. The mobile tests are still running on local hardware, but are controlled by GitHub Actions. We hope this new design means we can focus less on coaxing test runs to completion, and more on developing tests. Also it hopefully means that we can run tests and publish test results more frequently.
+
+A few other changes:
+- We removed the ServiceWorker test for now. It appears that Chromium does less state partitioning when ServiceWorkers are not present. This means a few more tests are failing, and suggests some fixes that the Chromium team may wish to make.
+- We removed some of the fingerprinting (screen size) tests, because they might not cover every kind of fingerprinting protection. We hope to bring newer, better screen fingerprinting tests in the future.
+- A couple of columns on some of our pages are missing because of technical difficulties -- we are working on bringing those back in the near future.
+
 ### New browser versions
 
 On Desktop:
