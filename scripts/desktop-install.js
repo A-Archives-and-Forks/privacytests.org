@@ -7,7 +7,10 @@ const { execSync, parseBrowserKey } = require('./utils');
 const { macOSdefaultBrowserSettings, defaultAppDirectory } = require('./desktop-constants');
 
 const downloadFile = (url, destPath) => {
-  execSync(`curl -L -f -o "${destPath}" "${url}"`);
+  // Prefer HTTP/1.1, and retry/resume instead of failing.
+  execSync(
+    `curl -L -f --http1.1 --retry 5 --retry-all-errors --retry-delay 2 -C - -o "${destPath}" "${url}"`
+  );
 };
 
 const compareVersions = (a, b) => {
