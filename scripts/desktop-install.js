@@ -29,7 +29,7 @@ const compareVersions = (a, b) => {
 const resolveGitHubReleaseAssetUrl = (repo, assetPattern) => {
   const curlHeaders = [
     '-H "Accept: application/vnd.github+json"',
-    '-H "User-Agent: privacytests.org-desktop-install"',
+    '-H "User-Agent: privacytests.org-desktop-install"'
   ];
   if (process.env.GITHUB_TOKEN) {
     curlHeaders.push(`-H "Authorization: Bearer ${process.env.GITHUB_TOKEN}"`);
@@ -83,7 +83,7 @@ const resolveInstallSettings = (settings, nightly) => {
       dmgUrl: settings.dmgUrl,
       githubRelease: settings.githubRelease,
       directoryRelease: settings.directoryRelease,
-      sparkleRelease: settings.sparkleRelease,
+      sparkleRelease: settings.sparkleRelease
     };
   }
   return {
@@ -95,7 +95,7 @@ const resolveInstallSettings = (settings, nightly) => {
     dmgUrl: settings.nightlyDmgUrl,
     githubRelease: settings.nightlyGithubRelease,
     directoryRelease: settings.nightlyDirectoryRelease,
-    sparkleRelease: settings.nightlySparkleRelease,
+    sparkleRelease: settings.nightlySparkleRelease
   };
 };
 

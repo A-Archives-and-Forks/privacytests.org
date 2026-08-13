@@ -84,11 +84,11 @@ const macOSdefaultBrowserSettings = {
     basedOn: 'chromium',
     directoryRelease: {
       listUrl: 'https://ftp.opera.com/ftp/pub/opera/desktop/',
-      dmgUrlTemplate: 'https://get.geo.opera.com/pub/opera/desktop/{version}/mac/Opera_{version}_Setup.dmg',
+      dmgUrlTemplate: 'https://get.geo.opera.com/pub/opera/desktop/{version}/mac/Opera_{version}_Setup.dmg'
     },
     nightlyDirectoryRelease: {
       listUrl: 'https://ftp.opera.com/ftp/pub/opera-developer/',
-      dmgUrlTemplate: 'https://get.geo.opera.com/pub/opera-developer/{version}/mac/Opera_Developer_{version}_Setup.dmg',
+      dmgUrlTemplate: 'https://get.geo.opera.com/pub/opera-developer/{version}/mac/Opera_Developer_{version}_Setup.dmg'
     },
     update: ['Opera', 'About Opera'],
     updateNightly: ['Opera Developer', 'About Opera']
@@ -115,13 +115,13 @@ const macOSdefaultBrowserSettings = {
       listUrl: 'https://dist.torproject.org/torbrowser/',
       dmgUrlTemplate: 'https://dist.torproject.org/torbrowser/{version}/tor-browser-macos-{version}.dmg',
       // Stable releases only (exclude alphas like 16.0a8).
-      versionPattern: 'href=["\']?(\\d+(?:\\.\\d+)+)/',
+      versionPattern: 'href=["\']?(\\d+(?:\\.\\d+)+)/'
     },
     nightlyDirectoryRelease: {
       listUrl: 'https://dist.torproject.org/torbrowser/',
       dmgUrlTemplate: 'https://dist.torproject.org/torbrowser/{version}/tor-browser-macos-{version}.dmg',
       // Alpha / early builds, e.g. 16.0a8.
-      versionPattern: 'href=["\']?(\\d+\\.\\d+a\\d+)/',
+      versionPattern: 'href=["\']?(\\d+\\.\\d+a\\d+)/'
     },
     update: ['Tor Browser', 'About Tor Browser'],
     updateNightly: ['Tor Browser', 'About Tor Browser']
@@ -146,7 +146,7 @@ const macOSdefaultBrowserSettings = {
     // Brew's vivaldi@snapshot cask often lags and 404s; resolve via Sparkle appcast.
     nightlySparkleRelease: {
       appcastUrl: 'https://update.vivaldi.com/update/1.0/snapshot/mac/appcast.xml',
-      dmgUrlTemplate: 'https://downloads.vivaldi.com/snapshot/Vivaldi.{version}.universal.dmg',
+      dmgUrlTemplate: 'https://downloads.vivaldi.com/snapshot/Vivaldi.{version}.universal.dmg'
     },
     // Assumes Vivaldi is on automatic updates:
     update: ['Vivaldi', 'About Vivaldi'],

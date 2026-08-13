@@ -9,12 +9,12 @@ const createSocket = (port) => new Promise((resolve, reject) => {
   const socket = net.createConnection(
     port,
     () => resolve(socket));
-  socket.on("error", (err) => {
+  socket.on('error', (err) => {
     reject(err);
   });
 });
 
-const domainRegex = /\s([a-z0-9\-]+\.privacytests3\.org)[\s.]/g;
+const domainRegex = /\s([a-z0-9-]+\.privacytests3\.org)[\s.]/g;
 
 let isObserving = false;
 
@@ -88,13 +88,13 @@ const locationDefinition = (countryName, countryCode) =>
   });
 
 const dnsTestDefinitions = [
-  //ispDefinition('Comcast', '75.75.75.75'),
-  //ispDefinition('Spectrum (Charter)', '209.18.47.61'),
-  //ispDefinition('AT&T', '68.94.156.1'),
-  //ispDefinition('Verizon', '8.238.64.14'),
-  //ispDefinition('Cox', '68.105.28.11'),
-  //ispDefinition('Orange', '80.10.246.2'),
-  //ispDefinition('BT', '62.6.40.178'),
+  // ispDefinition('Comcast', '75.75.75.75'),
+  // ispDefinition('Spectrum (Charter)', '209.18.47.61'),
+  // ispDefinition('AT&T', '68.94.156.1'),
+  // ispDefinition('Verizon', '8.238.64.14'),
+  // ispDefinition('Cox', '68.105.28.11'),
+  // ispDefinition('Orange', '80.10.246.2'),
+  // ispDefinition('BT', '62.6.40.178'),
   ispDefinition('Cloudflare', '1.1.1.1'),
   ispDefinition('Google', '8.8.8.8'),
   ispDefinition('Quad9', '9.9.9.9'),
@@ -109,7 +109,7 @@ const dnsTestDefinitions = [
 ];
 
 const checkForSecureDns = async (browserSession) => {
-  await sleepMs(20000);  // Wait enough time for browsers to enable DoH.
+  await sleepMs(20000); // Wait enough time for browsers to enable DoH.
   const testDomain = generateRandomTestDomain();
   console.log(`${Date.now()} -- opening ${testDomain}`);
   browserSession.browser.openUrl(`http://${testDomain}/`);
@@ -131,7 +131,6 @@ const testIfDnsIsEncrypted = async (browserSession, { ip, country }) => {
 const runDnsTests = async (browserSession) => {
   await observeDomains();
   const preferredNetworkService = systemNetworkSettings.getPreferredNetworkService();
-  const originalDnsIps = systemNetworkSettings.getDNS(preferredNetworkService);
   // Start the browser with a fresh profile:
   await browserSession.browser.launch(true);
   await sleepMs(4000);

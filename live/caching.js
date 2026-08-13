@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const port = 3333;
 const path = require('node:path');
-const { Readable } = require( "stream" );
+const { Readable } = require('stream');
 
 const resourceFiles = {
   favicon: 'favicon.png',
@@ -32,7 +32,6 @@ const mimeTypes = {
   script: 'application/javascript',
   xhr: 'text/html'
 };
-
 
 const countMaps = {
   css: {},
@@ -70,7 +69,7 @@ app.get('/resource', (req, res) => {
   const { key, type } = req.query;
   ipAddresses[key] ||= {};
   ipAddresses[key][type] = ip;
-  console.log({ip, key, type});
+  console.log({ ip, key, type });
   const countMap = countMaps[type];
   if (countMap[key]) {
     countMap[key] = countMap[key] + 1;
@@ -117,13 +116,13 @@ app.get('/etag', (req, res) => {
 // ## HSTS cache tests
 
 app.get('/set_hsts.html|/test_hsts.html|/clear_hsts.html|/set_hsts2.html|/test_hsts2.html|/clear_hsts2.html|/hsts.js|/hsts2.js|/post_data.js|/test.css|/set_hsts.js|/test_hsts.js|/clear_hsts.js',
-        (req, res) => {
-          const headers = {
-            'Cache-Control': 'no-store',
-            'Access-Control-Allow-Origin': '*',
-          };
-          res.sendFile(path.normalize(__dirname + '/../static' + req.path), { headers });
-        });
+  (req, res) => {
+    const headers = {
+      'Cache-Control': 'no-store',
+      'Access-Control-Allow-Origin': '*'
+    };
+    res.sendFile(path.normalize(path.join(__dirname, '/../static', req.path)), { headers });
+  });
 
 app.get('/set_hsts.png', (req, res) => {
   const headers = {
@@ -155,8 +154,10 @@ app.get('/set_hsts2_file.html', (req, res) => {
 });
 
 app.get('/test_hsts2_file.html', (req, res) => {
-  const headers = { 'Cache-Control': 'max-age=0',
-                    'Content-Type': 'text/html'};
+  const headers = {
+    'Cache-Control': 'max-age=0',
+    'Content-Type': 'text/html'
+  };
   res.sendFile('page.html', { root: __dirname, headers });
 });
 

@@ -479,7 +479,7 @@ class AndroidBrowser {
         await this.client.elementClick(highFive);
       }
     } catch (e) {
-      console.log("No high five button found");
+      console.log('No high five button found');
     }
   }
 
@@ -488,7 +488,7 @@ class AndroidBrowser {
     await this.client.terminateApp(this.packageName);
   }
 
-  async restart() {
+  async restart () {
     await this.kill();
     await sleepMs(2000);
     await this.launch();

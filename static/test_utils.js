@@ -1,34 +1,34 @@
-let runTests = async (tests, mode, params) => {
-  let results = {};
-  for (let test of Object.keys(tests)) {
+const runTests = async (tests, mode, params) => {
+  const results = {};
+  for (const test of Object.keys(tests)) {
     let result;
-    if (params["only"]) {
-      if (test !== params["only"]) {
+    if (params.only) {
+      if (test !== params.only) {
         continue;
       }
     }
     console.log(`running ${test}...`);
     try {
-      const label = params["label"] ? ("_" + params["label"]) : "";
-      const input = params["sessionId"] + label;
-      console.log("input", input);
+      const label = params.label ? ('_' + params.label) : '';
+      const input = params.sessionId + label;
+      console.log('input', input);
       result = await tests[test][mode](input);
     } catch (e) {
-      result = "Error: " + e.message;
+      result = 'Error: ' + e.message;
     }
     console.log(`  ... finished ${test} with result: ${result}.`);
     results[test] = {
       write: tests[test].write.toString(),
       read: tests[test].read.toString(),
       description: tests[test].description,
-      result,
+      result
     };
   }
   return results;
 };
 
-export let queryParams = (urlString) => {
-  let searchParams = new URL(urlString).searchParams;
+export const queryParams = (urlString) => {
+  const searchParams = new URL(urlString).searchParams;
   return Object.fromEntries(searchParams.entries());
 };
 
@@ -38,7 +38,7 @@ const removeAllServiceWorkers = async () => {
     try {
       const registrations = await navigator.serviceWorker.getRegistrations();
       for (const registration of registrations) {
-        registration.unregister()
+        registration.unregister();
       }
     } catch (e) {
       console.log(e);
@@ -51,18 +51,18 @@ const filterObject = (obj, f) => {
   return Object.fromEntries(entries.filter(f));
 };
 
-export let runAllTests = async (tests, { category, sessionId, mode } = {category:undefined, sessionId:undefined, mode:undefined}) => {
-  let params = queryParams(document.URL);
-  params["sessionId"] ||= sessionId;
-  params["mode"] ||= mode;
-  if (params["mode"] === "write") {
+export const runAllTests = async (tests, { category, sessionId, mode } = { category: undefined, sessionId: undefined, mode: undefined }) => {
+  const params = queryParams(document.URL);
+  params.sessionId ||= sessionId;
+  params.mode ||= mode;
+  if (params.mode === 'write') {
     await removeAllServiceWorkers();
   }
-  const testsFiltered = category ? filterObject(tests, ([k,v]) => v.category === category) : tests;
-  let results = await runTests(testsFiltered, params["mode"], params);
-  console.log("results:",results);
-  if (window.location !== parent.location) {
-    parent.postMessage(JSON.stringify(results), "*");
+  const testsFiltered = category ? filterObject(tests, ([k, v]) => v.category === category) : tests;
+  const results = await runTests(testsFiltered, params.mode, params);
+  console.log('results:', results);
+  if (window.location !== window.parent.location) {
+    window.parent.postMessage(JSON.stringify(results), '*');
   }
   return results;
 };

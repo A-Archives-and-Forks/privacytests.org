@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 
 const { v4: uuidv4 } = require('uuid');
 const express = require('express');
@@ -20,8 +21,8 @@ const sessionResults = new ExpiryMap(oneHourInMilliseconds);
 // The "same" domain is the one that is used for simluated third-party tracker
 // and one of the two first parties. The "different" domain is the other
 // first party we use.
-const first_party_root_same = 'https://test-pages.privacytests2.org';
-const first_party_root_different = 'https://test-pages.privacytests.org';
+const FIRST_PARTY_ROOT_SAME = 'https://test-pages.privacytests2.org';
+const FIRST_PARTY_ROOT_DIFFERENT = 'https://test-pages.privacytests.org';
 
 // Borrowed from https://github.com/brave/brave-core/blob/50df76971db6a6023b3db9aead0827606162dc9c/browser/net/brave_site_hacks_network_delegate_helper.cc#L29
 // and https://github.com/jparise/chrome-utm-stripper:
@@ -72,7 +73,7 @@ const stepCounters = {};
 // return a string URL with query string.
 const queryParameterTestUrl = (parameters) => {
   const secret = Math.random().toString().slice(2);
-  const baseURL = `${first_party_root_different}/query.html`;
+  const baseURL = `${FIRST_PARTY_ROOT_DIFFERENT}/query.html`;
   let queryString = '?controlParam=controlValue';
   for (const param of Object.keys(parameters)) {
     queryString += `&${param}=${secret}`;
@@ -90,19 +91,19 @@ const getNextStepIndex = (sessionId) => {
 };
 
 const pageSequence = [
-  `${first_party_root_same}/supercookies.html?mode=write&thirdparty=same`,
-  `${first_party_root_same}/supercookies.html?mode=read&thirdparty=same`,
-  `${first_party_root_different}/supercookies.html?mode=read&thirdparty=different`,
-  `${first_party_root_same}/navigation.html?mode=write&thirdparty=same`,
-  `${first_party_root_same}/navigation.html?mode=read&thirdparty=same`,
-  `${first_party_root_different}/navigation.html?mode=read&thirdparty=different`,
-  `${first_party_root_same}/tracking_content.html`,
-  `${first_party_root_same}/misc.html`,
+  `${FIRST_PARTY_ROOT_SAME}/supercookies.html?mode=write&thirdparty=same`,
+  `${FIRST_PARTY_ROOT_SAME}/supercookies.html?mode=read&thirdparty=same`,
+  `${FIRST_PARTY_ROOT_DIFFERENT}/supercookies.html?mode=read&thirdparty=different`,
+  `${FIRST_PARTY_ROOT_SAME}/navigation.html?mode=write&thirdparty=same`,
+  `${FIRST_PARTY_ROOT_SAME}/navigation.html?mode=read&thirdparty=same`,
+  `${FIRST_PARTY_ROOT_DIFFERENT}/navigation.html?mode=read&thirdparty=different`,
+  `${FIRST_PARTY_ROOT_SAME}/tracking_content.html`,
+  `${FIRST_PARTY_ROOT_SAME}/misc.html`,
   queryParameterTestUrl(TRACKING_QUERY_PARAMETERS),
-  `${first_party_root_same}/https.html`,
+  `${FIRST_PARTY_ROOT_SAME}/https.html`,
   'http://upgradable.privacytests2.org/upgradable.html?source=hyperlink',
   //  `http://insecure.privacytests2.org/insecure.html`,
-  `${first_party_root_same}/done.html`
+  `${FIRST_PARTY_ROOT_SAME}/done.html`
 ];
 
 const round = (x, digits) => {
@@ -250,7 +251,7 @@ const websocketSend = (sessionId, data) => {
   if (!websockets.get(sessionId)) {
     throw new Error(`no websocket exists for sessionId=${sessionId}`);
   }
-  const payload = JSON.stringify({ sessionId, data }, null, "  ");
+  const payload = JSON.stringify({ sessionId, data }, null, '  ');
   console.log('sending payload:', payload);
   websockets.get(sessionId).send(payload);
 };
@@ -260,11 +261,7 @@ app.post('/post', (req, res) => {
   // console.log(req.body);
   const { sessionId, data, category } = req.body;
   console.log('RECEIVED: ', category);
-  if (false) { // (!sessionId || !websockets.get(sessionId)) {
-    // We don't recognized this as an existing sessionId.
-    console.log(`Unknown sessionId '${sessionId}'; Sending 404.`);
-    res.sendStatus(404);
-  } else if (['supplementary', 'insecure', 'upgradable_address', 'toplevel',
+  if (['supplementary', 'insecure', 'upgradable_address', 'toplevel',
     'nothing', 'hsts', 'hsts2', 'tracking_cookies',
     'session_read_3p', 'session_write_3p',
     'session_read_1p', 'session_write_1p'].includes(category)) {

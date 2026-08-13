@@ -147,7 +147,7 @@ const main = async () => {
   const { _: mainArguments, force } = minimist(process.argv.slice(2));
   const date = mainArguments[0].toString();
   if (date === undefined) {
-    throw new Error("please enter a date");
+    throw new Error('please enter a date');
   }
   await compareAndCheck(date, force);
   const indexPath = getWebsiteDir();

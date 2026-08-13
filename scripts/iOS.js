@@ -94,7 +94,7 @@ const browserInfo = {
     startupClick: 'Close',
     urlBarClick: 'sentryFakeOmniboxButton',
     urlBarClick2: 'Address bar',
-    //urlBarClear: 'Clear the input field',
+    // urlBarClear: 'Clear the input field',
     // Focused field is an unnamed XCUIElementTypeTextView after omnibox open.
     urlBarKeysXpath: '//XCUIElementTypeTextView'
   }
@@ -272,7 +272,7 @@ class IOSBrowser {
     await this.client.terminateApp(this.bundleId);
   }
 
-  async restart() {
+  async restart () {
     await this.kill();
     await sleepMs(2000);
     await this.launch();
