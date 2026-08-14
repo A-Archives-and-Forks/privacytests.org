@@ -626,6 +626,27 @@ const writeDataSync = ({ path, filename, data }) => {
 
 // ## Command-line options
 
+// minimist leaves --flag=false as the string "false"; coerce so !! isn't wrong.
+const coerceBoolean = (value) => {
+  if (value === true || value === false) {
+    return value;
+  }
+  if (value === undefined || value === null) {
+    return false;
+  }
+  if (typeof value === 'number') {
+    return value !== 0;
+  }
+  const normalized = String(value).trim().toLowerCase();
+  if (['true', '1', 'yes'].includes(normalized)) {
+    return true;
+  }
+  if (['false', '0', 'no', ''].includes(normalized)) {
+    return false;
+  }
+  return Boolean(value);
+};
+
 const readConfig = (commandLineData) => {
   const defaultConfig = { aggregate: true, debug: false, update: false };
   if (commandLineData._.length > 0) {
@@ -634,6 +655,12 @@ const readConfig = (commandLineData) => {
   }
   delete commandLineData._;
   const config = Object.assign({}, defaultConfig, commandLineData);
+  for (const key of ['android', 'ios', 'browserstack', 'nightly', 'incognito', 'tor',
+    'debug', 'update', 'kill', 'aggregate', 'hurry', 'versions', 'version']) {
+    if (key in config) {
+      config[key] = coerceBoolean(config[key]);
+    }
+  }
   if (config.browser) {
     config.browser = String(config.browser);
     // Support --browser=firefox-nightly as an alias for --browser=firefox --nightly
@@ -674,12 +701,12 @@ const readConfig = (commandLineData) => {
 
 const configToBrowserSpec = (config) => ({
   browser: config.browser,
-  nightly: !!config.nightly,
-  incognito: !!config.incognito,
-  android: !!config.android,
-  tor: !!config.tor,
-  ios: !!config.ios,
-  browserstack: !!config.browserstack,
+  nightly: coerceBoolean(config.nightly),
+  incognito: coerceBoolean(config.incognito),
+  android: coerceBoolean(config.android),
+  tor: coerceBoolean(config.tor),
+  ios: coerceBoolean(config.ios),
+  browserstack: coerceBoolean(config.browserstack),
   appDir: config['app-dir']
 });
 

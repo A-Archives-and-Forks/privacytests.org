@@ -1,0 +1,122 @@
+name: Single browser test
+
+on:
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: Platform to test
+        required: true
+        type: choice
+        options:
+          - desktop
+          - android
+          - ios
+        default: desktop
+      browser:
+        description: Browser slug (e.g. chrome, brave, vivaldi)
+        required: true
+        type: string
+        default: chrome
+      nightly:
+        description: Use nightly / canary / alpha build
+        required: true
+        type: boolean
+        default: false
+      incognito:
+        description: Incognito / private window (desktop only)
+        required: true
+        type: boolean
+        default: false
+      tor:
+        description: Brave Tor window (desktop Brave only)
+        required: true
+        type: boolean
+        default: false
+
+env:
+  CI: true
+  GITHUB_TOKEN: ${{ github.token }}
+  # capture-website pulls in puppeteer; CI doesn't generate previews, so skip its Chrome download.
+  PUPPETEER_SKIP_DOWNLOAD: true
+
+jobs:
+  test:
+    runs-on: ${{ inputs.platform == 'desktop' && 'macos-latest' || fromJSON('["self-hosted","mobile"]') }}
+    # Share the mobile device with Mobile tests; desktop runs don't need that queue.
+    concurrency:
+      group: ${{ inputs.platform == 'desktop' && format('single-desktop-{0}', github.run_id) || 'mobile-tests' }}
+      cancel-in-progress: false
+    defaults:
+      run:
+        working-directory: scripts
+
+    steps:
+      - name: Validate inputs
+        run: |
+          if [ -z '${{ inputs.browser }}' ]; then
+            echo "browser must be non-empty"
+            exit 1
+          fi
+          if [ '${{ inputs.tor }}' = 'true' ] && [ '${{ inputs.browser }}' != 'brave' ]; then
+            echo "tor is only supported with browser=brave (got browser=${{ inputs.browser }})"
+            exit 1
+          fi
+          if [ '${{ inputs.incognito }}' = 'true' ] && [ '${{ inputs.platform }}' != 'desktop' ]; then
+            echo "Note: incognito is ignored for ${{ inputs.platform }}"
+          fi
+
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: scripts/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install mkcert
+        if: inputs.platform == 'desktop'
+        run: |
+          # macos-latest images ship with aws/tap pre-tapped but untrusted; brew warns on every command until trusted.
+          brew trust aws/tap
+          brew install mkcert
+          mkcert -install
+
+      - name: Install browser
+        if: inputs.platform == 'desktop'
+        run: node desktop-install ${{ inputs.nightly && format('{0}-nightly', inputs.browser) || inputs.browser }}
+
+      - name: Start DNS monitor
+        if: inputs.platform == 'desktop'
+        run: sudo node monitor-dns.js &
+
+      - name: Run tests
+        run: |
+          if [ '${{ inputs.platform }}' = 'desktop' ]; then
+            node test \
+              --browser=${{ inputs.browser }} \
+              --nightly=${{ inputs.nightly }} \
+              --incognito=${{ inputs.incognito }} \
+              --tor=${{ inputs.tor }} \
+              --out=../results.json
+          else
+            node test \
+              --${{ inputs.platform }} \
+              --browser=${{ inputs.browser }} \
+              --nightly=${{ inputs.nightly }} \
+              --out=../results.json
+          fi
+        timeout-minutes: 20
+
+      - name: Upload results
+        uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: results
+          path: |
+            results.json
+            results.html
+            failure.png
+          if-no-files-found: warn
