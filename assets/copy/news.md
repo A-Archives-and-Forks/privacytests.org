@@ -10,6 +10,8 @@ A few other changes:
 - We removed some of the fingerprinting (screen size) tests, because they might not cover every kind of fingerprinting protection. We hope to bring newer, better screen fingerprinting tests in the future.
 - A couple of columns on some of our pages are missing because of technical difficulties -- we are working on bringing those back in the near future.
 
+Note: After publication, we learned there was a bug in the "Tor enabled" test which produced wrong results. We have removed that row for now. The results will be back in Issue 97, based on a corrected testing implementation.
+
 ### New browser versions
 
 On Desktop:
