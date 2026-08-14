@@ -224,6 +224,8 @@ class IOSBrowser {
           await clickElementWithName(this.client, this.urlBarClear);
         } catch (e) {
           console.log(e);
+          await IOSBrowser.logUiHierarchy(
+            `UI hierarchy after urlBarClear "${this.urlBarClear}" failure (${this.browser})`);
         }
       }
       let urlBarToSendKeys;
