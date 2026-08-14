@@ -14,9 +14,11 @@ const fetchText = async (...fetchArgs) => {
 };
 
 const testTor = async () => {
-  const wtfJSON = await fetchJSON('https://wtfismyip.com/json');
+  // All tor exit nodes have an IPv4 address.
+  const wtfJSON = await fetchJSON('https://ipv4.wtfismyip.com/json');
   const ipAddress = wtfJSON.YourFuckingIPAddress;
   console.log(wtfJSON);
+  // Tor exist nodes listed by ipv4 address.
   const torList = await fetchText('https://test-pages.privacytests2.org/live/torbulkexitlist');
   const IsTorExit = torList.includes(ipAddress);
   return {
