@@ -358,14 +358,14 @@ const runHstsTest = async (browserSession, insecurePassed) => {
   let autoUpgradeFound = false;
   if (!insecurePassed) {
     const temp1 = await runPageTest(browserSession, `${kHstsRoot}/clear_hsts.html`);
-    const beforeHstsResult = await runPageTest(browserSession, `${kInsecureRoot}/test_hsts.html&n=1`);
+    const beforeHstsResult = await runPageTest(browserSession, `${kInsecureRoot}/test_hsts.html?n=1`);
     if (beforeHstsResult.readDifferentFirstParty === 'Upgraded to https') {
       autoUpgradeFound = true;
     }
     if (!autoUpgradeFound) {
       const temp2 = await runPageTest(browserSession, `${kHstsRoot}/set_hsts.html`);
       console.log({ temp1, temp2 });
-      return await runPageTest(browserSession, `${kInsecureRoot}/test_hsts.html&n=2`);
+      return await runPageTest(browserSession, `${kInsecureRoot}/test_hsts.html?n=2`);
     }
   }
   return {
@@ -384,14 +384,14 @@ const runHsts2Test = async (browserSession, insecurePassed) => {
   let autoUpgradeFound = false;
   if (!insecurePassed) {
     const temp1 = await runPageTest(browserSession, `${kHstsRoot}/clear_hsts2.html`);
-    const beforeHstsResult = await runPageTest(browserSession, `${kInsecureRoot}/test_hsts2.html&n=1`);
+    const beforeHstsResult = await runPageTest(browserSession, `${kInsecureRoot}/test_hsts2.html?n=1`);
     if (beforeHstsResult.readDifferentFirstParty === 'Upgraded to https') {
       autoUpgradeFound = true;
     }
     if (!autoUpgradeFound) {
       const temp2 = await runPageTest(browserSession, `${kHstsRoot}/set_hsts2.html`);
       console.log({ temp1, temp2 });
-      return await runPageTest(browserSession, `${kInsecureRoot}/test_hsts2.html&n=2`);
+      return await runPageTest(browserSession, `${kInsecureRoot}/test_hsts2.html?n=2`);
     }
   }
   return {
