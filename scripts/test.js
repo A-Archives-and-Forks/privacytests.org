@@ -355,42 +355,54 @@ const runInsecureTest = async (browserSession) => {
 
 // Run the HSTS cache supercookie test.
 const runHstsTest = async (browserSession, insecurePassed) => {
+  let autoUpgradeFound = false;
   if (!insecurePassed) {
     const temp1 = await runPageTest(browserSession, `${kHstsRoot}/clear_hsts.html`);
-    const temp2 = await runPageTest(browserSession, `${kHstsRoot}/set_hsts.html`);
-    console.log({ temp1, temp2 });
-    return await runPageTest(browserSession, `${kInsecureRoot}/test_hsts.html`);
-  } else {
-    return {
-      write: null,
-      read: null,
-      readSameFirstParty: null,
-      readDifferentFirstParty: 'HTTPS used by default; no HSTS cache issue expected',
-      passed: true,
-      testFailed: false,
-      unsupported: null
-    };
+    const beforeHstsResult = await runPageTest(browserSession, `${kInsecureRoot}/test_hsts.html`);
+    if (beforeHstsResult.readDifferentFirstParty === 'Upgraded to https') {
+      autoUpgradeFound = true;
+    }
+    if (!autoUpgradeFound) {
+      const temp2 = await runPageTest(browserSession, `${kHstsRoot}/set_hsts.html`);
+      console.log({ temp1, temp2 });
+      return await runPageTest(browserSession, `${kInsecureRoot}/test_hsts.html`);
+    }
   }
+  return {
+    write: null,
+    read: null,
+    readSameFirstParty: null,
+    readDifferentFirstParty: autoUpgradeFound ? 'Auto-upgraded to https' : 'HTTPS used by default; no HSTS cache issue expected',
+    passed: true,
+    testFailed: false,
+    unsupported: null
+  };
 };
 
 // Run the HSTS cache supercookie test.
 const runHsts2Test = async (browserSession, insecurePassed) => {
+  let autoUpgradeFound = false;
   if (!insecurePassed) {
     const temp1 = await runPageTest(browserSession, `${kHstsRoot}/clear_hsts2.html`);
-    const temp2 = await runPageTest(browserSession, `${kHstsRoot}/set_hsts2.html`);
-    console.log({ temp1, temp2 });
-    return await runPageTest(browserSession, `${kInsecureRoot}/test_hsts2.html`);
-  } else {
-    return {
-      write: null,
-      read: null,
-      readSameFirstParty: null,
-      readDifferentFirstParty: 'HTTPS used by default; no HSTS cache issue expected',
-      passed: true,
-      testFailed: false,
-      unsupported: null
-    };
+    const beforeHstsResult = await runPageTest(browserSession, `${kInsecureRoot}/test_hsts2.html`);
+    if (beforeHstsResult.readDifferentFirstParty === 'Upgraded to https') {
+      autoUpgradeFound = true;
+    }
+    if (!autoUpgradeFound) {
+      const temp2 = await runPageTest(browserSession, `${kHstsRoot}/set_hsts2.html`);
+      console.log({ temp1, temp2 });
+      return await runPageTest(browserSession, `${kInsecureRoot}/test_hsts2.html`);
+    }
   }
+  return {
+    write: null,
+    read: null,
+    readSameFirstParty: null,
+    readDifferentFirstParty: autoUpgradeFound ? 'Auto-upgraded to https' : 'HTTPS used by default; no HSTS cache issue expected',
+    passed: true,
+    testFailed: false,
+    unsupported: null
+  };
 };
 
 const analyzeTrackingCookieTestResults = (leakyHosts) => {
