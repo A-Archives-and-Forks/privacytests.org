@@ -332,25 +332,27 @@ const runSessionTests = async (browserSession) => {
 };
 
 // Run the insecure connection test. Returns { insecureResults, insecurePassed }.
+// A deadline timeout means the page never loaded (HTTPS-only pass). Any other
+// error (websocket, openUrl, parse) fails the run.
 const runInsecureTest = async (browserSession) => {
-  let insecureResult, insecurePassed;
+  const timeout = (browserSession.browser instanceof DesktopBrowser) ? 8000 : 30000;
+  const timeoutName = 'insecure page';
+  const insecureResultPromise = nextBrowserValue(browserSession);
+  await openSessionUrl(browserSession, `${kInsecureRoot}/insecure.html`);
   try {
-    const timeout = (browserSession.browser instanceof DesktopBrowser) ? 8000 : 30000;
-    const insecureResultPromise = nextBrowserValue(browserSession, timeout);
-    try {
-      await openSessionUrl(browserSession, `${kInsecureRoot}/insecure.html`);
-      log('now trying');
-      insecureResult = await insecureResultPromise;
-      insecurePassed = false;
-    } catch (e) {
-      insecureResultPromise.catch(() => {});
+    const insecureResult = await deadlinePromise(timeoutName, insecureResultPromise, timeout);
+    return { insecureResult, insecurePassed: false };
+  } catch (e) {
+    // Make sure we don't leave a dangling promise.
+    insecureResultPromise.catch(() => {});
+    if (!e.message?.startsWith(`${timeoutName} timed out`)) {
       throw e;
     }
-  } catch (e) {
-    insecureResult = { 'Insecure website warning': { passed: true, result: 'Insecure website never loaded' } };
-    insecurePassed = true;
+    return {
+      insecureResult: { 'Insecure website warning': { passed: true, result: 'Insecure website never loaded' } },
+      insecurePassed: true
+    };
   }
-  return { insecureResult, insecurePassed };
 };
 
 // Run the HSTS cache supercookie test.
