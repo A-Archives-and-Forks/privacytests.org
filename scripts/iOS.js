@@ -83,7 +83,7 @@ const browserInfo = {
     bundleId: 'com.vivaldi.browser',
     urlBarClick: 'Address and search bar',
     urlBarKeys: 'Address',
-    urlBarClear: 'Clear Text'
+    urlBarClear: 'OmniboxClearButtonAccessibilityIdentifier'
   },
   yandex: {
     name: 'Yandex',
