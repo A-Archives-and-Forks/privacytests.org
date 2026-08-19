@@ -113,7 +113,7 @@ const checkForSecureDns = async (browserSession) => {
   const testDomain = generateRandomTestDomain();
   console.log(`${Date.now()} -- opening ${testDomain}`);
   browserSession.browser.openUrl(`http://${testDomain}/`);
-  await sleepMs(2000);
+  await sleepMs(10000);
   const unencrypted = hasSeenDomain(testDomain);
   return !unencrypted;
 };
