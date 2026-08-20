@@ -19,7 +19,7 @@ const generateHtmlFile = async (filename) => {
   const canonicalUrl = filename.replace('.md', '');
   const htmlOutput = template.htmlPage({
     title: 'Open-source tests of web browser privacy',
-    content: wrapCopy(marked.parse(copy)),
+    content: wrapCopy(marked.parse(copy, { mangle: false })),
     cssFiles: ['../assets/css/template.css'],
     canonicalUrl,
     previewImageUrl: previewFilename
