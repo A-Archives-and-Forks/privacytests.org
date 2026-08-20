@@ -12,6 +12,8 @@ A few other changes:
 
 Note: After publication, we learned there was a bug in the "Tor enabled" test which produced wrong results. We have removed that row for now. The results will be back in Issue 97, based on a corrected testing implementation.
 
+Second note: An error in the DNS policy test for Brazil was discovered, so that row has been removed as well.
+
 ### New browser versions
 
 On Desktop:
