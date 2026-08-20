@@ -525,15 +525,15 @@ const createBrowserObject = (config) => {
 
 const prepareBrowserSession = async (config, hurry) => {
   const browser = createBrowserObject(config);
-  const websocket = await createWebsocket();
   if (!hurry && browser instanceof DesktopBrowser) {
     log('prepareBrowserSession: warm-up starting', { browser: config.browser, hurry });
     await browser.launch();
     // Give browser the chance to load any feature flags.
     await sleepMs(60000);
     await browser.kill();
-    log('prepareBrowserSession: warm-up finished', { browser: config.browser, sessionId: websocket._sessionId });
+    log('prepareBrowserSession: warm-up finished', { browser: config.browser });
   }
+  const websocket = await createWebsocket();
   return { browser, websocket };
 };
 
