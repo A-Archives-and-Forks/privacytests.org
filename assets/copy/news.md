@@ -1,4 +1,26 @@
 # News
+## [Issue 97](/archive/issue97): 2026-08-20
+
+### New browser versions
+
+On Desktop:
+* Duckduckgo 1.203
+* Firefox 154.0
+* Opera 135.0
+
+On iOS:
+* Duckduckgo 7.232
+* Firefox 153.3
+
+On Android:
+* Chrome 151.0
+* Duckduckgo 5.292
+* Edge 151.0
+* Firefox 154.0
+* Focus 154.0
+* Opera 100.4
+* Yandex 26.8
+
 ## [Issue 96](/archive/issue96): 2026-08-10
 
 After a long hiatus, PrivacyTests is back! Thanks to everyone for your patience.
