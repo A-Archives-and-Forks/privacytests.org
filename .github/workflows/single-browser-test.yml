@@ -55,8 +55,7 @@ jobs:
 
       - name: Ensure Appium is running
         if: inputs.platform != 'desktop'
-        working-directory: ..
-        run: bash infra/ensure-appium.sh
+        run: bash ../infra/ensure-appium.sh
 
       - name: Validate inputs
         run: |
