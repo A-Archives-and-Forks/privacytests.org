@@ -24,6 +24,10 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
+      - name: Ensure Appium is running
+        working-directory: ..
+        run: bash infra/ensure-appium.sh
+
       - uses: actions/setup-node@v5
         with:
           node-version: '24'
@@ -69,7 +73,6 @@ jobs:
           - { platform: ios, browser: safari }
           - { platform: ios, browser: vivaldi }
     #      - { platform: ios, browser: onion }
-    # Runner name/label: "mobile". Appium is expected to already be running (port 4723).
     runs-on: [self-hosted, mobile]
     defaults:
       run:
@@ -80,6 +83,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v5
+
+      - name: Ensure Appium is running
+        working-directory: ..
+        run: bash infra/ensure-appium.sh
 
       - uses: actions/setup-node@v5
         with:
