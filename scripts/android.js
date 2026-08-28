@@ -48,6 +48,9 @@ const browserInfo = {
   edge: {
     releasePackageName: 'com.microsoft.emmx',
     nightlyPackageName: 'com.microsoft.emmx.canary',
+    startupClicks: [
+      '//*[@resource-id="android:id/button2"]' // Cancel system "Set as default"
+    ],
     urlBarClick: 'url_bar',
     urlBarClick2: 'search_box_text',
     urlBarKeys: 'url_bar'
