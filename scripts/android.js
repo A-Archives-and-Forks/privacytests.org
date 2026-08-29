@@ -48,9 +48,6 @@ const browserInfo = {
   edge: {
     releasePackageName: 'com.microsoft.emmx',
     nightlyPackageName: 'com.microsoft.emmx.canary',
-    startupClicks: [
-      '//*[@resource-id="android:id/button2"]' // Cancel system "Set as default"
-    ],
     urlBarClick: 'url_bar',
     urlBarClick2: 'search_box_text',
     urlBarKeys: 'url_bar'
@@ -61,7 +58,6 @@ const browserInfo = {
     // Fresh install: Welcome → system default-browser dialog → in-app default promo.
     startupClicks: [
       '//android.view.View[@clickable="true" and .//android.widget.TextView[@text="Continue"]]',
-      '//*[@resource-id="android:id/button2"]', // Cancel system "Set as default"
       '//android.view.View[@clickable="true" and .//android.widget.TextView[@text="Not now"]]'
     ],
     // Recent Firefox uses Compose toolbar (not mozac_browser_toolbar_*).
@@ -139,6 +135,10 @@ const browserInfo = {
 };
 
 const KEY_ENTER = 66;
+
+// System "Set as default browser" dialog (com.google.android.permissioncontroller).
+const cancelDefaultBrowserDialog =
+  '//*[@resource-id="android:id/button2"]';
 
 const findElementWithId = async (client, packageName, id) => {
   const elementObject = await client.findElement('id', `${packageName}:id/${id}`);
@@ -359,33 +359,35 @@ class AndroidBrowser {
     }
     await this.client.activateApp(this.packageName);
     await sleepMs(8000);
-    const startupSelectors = []
+    const startupSelectors = [cancelDefaultBrowserDialog]
       .concat(this.startupClicks || [])
       .concat(this.startupClick || []);
-    if (startupSelectors.length > 0) {
-      // Multi-step onboarding / system dialogs (e.g. Firefox Continue, then Cancel default-browser).
-      for (let i = 0; i < 8; ++i) {
-        // Stop once the browser chrome is ready (avoids re-clicking after home).
-        const ready = await findElement(
-          this.client, this.packageName, this.urlBarClick);
-        if (ready) {
-          break;
-        }
-        let clicked = false;
-        for (const selector of startupSelectors) {
-          const startupButton = await findElement(
-            this.client, this.packageName, selector);
-          if (startupButton) {
-            await this.client.elementClick(startupButton);
-            clicked = true;
-            await sleepMs(3000);
-            break;
-          }
-        }
-        if (!clicked) {
+    let dismissedStartup = false;
+    // Multi-step onboarding / system dialogs (e.g. Cancel default-browser, Firefox Continue).
+    for (let i = 0; i < 8; ++i) {
+      // Stop once the browser chrome is ready (avoids re-clicking after home).
+      const ready = await findElement(
+        this.client, this.packageName, this.urlBarClick);
+      if (ready) {
+        break;
+      }
+      let clicked = false;
+      for (const selector of startupSelectors) {
+        const startupButton = await findElement(
+          this.client, this.packageName, selector);
+        if (startupButton) {
+          await this.client.elementClick(startupButton);
+          clicked = true;
+          dismissedStartup = true;
+          await sleepMs(3000);
           break;
         }
       }
+      if (!clicked) {
+        break;
+      }
+    }
+    if (dismissedStartup) {
       await sleepMs(5000);
     }
   }
