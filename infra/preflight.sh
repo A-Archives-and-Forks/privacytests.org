@@ -22,14 +22,17 @@ http3_curl () {
   exit 1
 }
 
-check_altsvc_http3 () {
-  local url="${1:-https://altsvc.privacytests2.org:4433/set}"
+check_http3 () {
+  local label="$1"
+  local url="$2"
   local curl_bin
   curl_bin="$(http3_curl)"
-  echo "Checking Alt-Svc HTTP/3 server: ${url}"
+  echo "Checking ${label}: ${url}"
   echo "Using curl: ${curl_bin} ($("$curl_bin" --version | head -1))"
   "$curl_bin" -vf --http3-only "$url"
-  echo "Alt-Svc HTTP/3 server OK"
+  echo "${label} OK"
 }
 
-check_altsvc_http3
+check_http3 "Alt-Svc HTTP/3 server (privacytests2.org)" "https://altsvc.privacytests2.org:4433/protocol"
+check_http3 "Alt-Svc HTTP/3 server (privacytests3.org)" "https://altsvc.privacytests3.org:4435/protocol"
+check_http3 "HTTP/3 connection_id server" "https://h3.privacytests2.org:4434/connection_id"
