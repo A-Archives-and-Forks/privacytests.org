@@ -16,7 +16,11 @@ env:
   PUPPETEER_SKIP_DOWNLOAD: true
 
 jobs:
+  preflight:
+    uses: ./.github/workflows/preflight.yml
+
   android-preflight:
+    needs: preflight
     runs-on: [self-hosted, mobile]
     defaults:
       run:

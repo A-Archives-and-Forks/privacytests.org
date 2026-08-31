@@ -12,7 +12,11 @@ env:
   PUPPETEER_SKIP_DOWNLOAD: true
 
 jobs:
+  preflight:
+    uses: ./.github/workflows/preflight.yml
+
   desktop-tests:
+    needs: preflight
     strategy:
       fail-fast: false
       matrix:
