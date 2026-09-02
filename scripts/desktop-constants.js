@@ -8,9 +8,7 @@ const macOSdefaultBrowserSettings = {
     torPostLaunchDelay: 10000,
     basedOn: 'chromium',
     dmgUrl: 'https://laptop-updates.brave.com/latest/osx',
-    nightlyDmgUrl: 'https://laptop-updates.brave.com/latest/osx/nightly',
-    update: ['Brave', 'About Brave'],
-    updateNightly: ['Brave', 'About Brave']
+    nightlyDmgUrl: 'https://laptop-updates.brave.com/latest/osx/nightly'
   },
   chrome: {
     name: 'Google Chrome',
@@ -18,9 +16,7 @@ const macOSdefaultBrowserSettings = {
     privateFlag: 'incognito',
     basedOn: 'chromium',
     dmgUrl: 'https://dl.google.com/chrome/mac/universal/stable/GGRO/googlechrome.dmg',
-    nightlyDmgUrl: 'https://dl.google.com/chrome/mac/universal/canary/googlechromecanary.dmg',
-    update: ['Chrome', 'About Google Chrome'],
-    updateNightly: ['Chrome Canary', 'About Google Chrome']
+    nightlyDmgUrl: 'https://dl.google.com/chrome/mac/universal/canary/googlechromecanary.dmg'
   },
   duckduckgo: {
     name: 'DuckDuckGo',
@@ -37,9 +33,7 @@ const macOSdefaultBrowserSettings = {
     privateFlag: 'inprivate',
     basedOn: 'chromium',
     pkgUrl: 'https://go.microsoft.com/fwlink/?linkid=2093504',
-    nightlyBrewCask: 'microsoft-edge@canary',
-    update: ['Microsoft Edge', 'About Microsoft Edge'],
-    updateNightly: ['Microsoft Edge Canary', 'About Microsoft Edge']
+    nightlyBrewCask: 'microsoft-edge@canary'
   },
   firefox: {
     name: 'firefox',
@@ -49,9 +43,7 @@ const macOSdefaultBrowserSettings = {
     env: { MOZ_DISABLE_AUTO_SAFE_MODE: '1', MOZ_CRASHREPORTER_DISABLE: '1' },
     dmgUrl: 'https://download.mozilla.org/?product=firefox-latest-ssl&os=osx&lang=en-US',
     nightlyDmgUrl: 'https://download.mozilla.org/?product=firefox-nightly-latest-ssl&os=osx&lang=en-US',
-    update: ['Firefox', 'About Firefox'],
-    postLaunchDelay: 5000,
-    updateNightly: ['Firefox Nightly', 'About Nightly']
+    postLaunchDelay: 5000
   },
   librewolf: {
     name: 'LibreWolf',
@@ -60,8 +52,8 @@ const macOSdefaultBrowserSettings = {
     basedOn: 'firefox',
     useOpen: true,
     env: { MOZ_DISABLE_AUTO_SAFE_MODE: '1' },
-    brewCask: 'librewolf',
-    updateCommand: 'brew upgrade --cask librewolf',
+    brewTap: 'akdev1l/apps',
+    brewCask: 'akdev1l/apps/librewolf',
     postLaunchDelay: 5000
   },
   mullvad: {
@@ -74,8 +66,7 @@ const macOSdefaultBrowserSettings = {
       repo: 'mullvad/mullvad-browser',
       assetPattern: '^mullvad-browser-macos-.*\\.dmg$'
     },
-    postLaunchDelay: 5000,
-    update: ['Mullvad Browser', 'About Mullvad Browser']
+    postLaunchDelay: 5000
   },
   opera: {
     name: 'Opera',
@@ -89,9 +80,7 @@ const macOSdefaultBrowserSettings = {
     nightlyDirectoryRelease: {
       listUrl: 'https://ftp.opera.com/ftp/pub/opera-developer/',
       dmgUrlTemplate: 'https://get.geo.opera.com/pub/opera-developer/{version}/mac/Opera_Developer_{version}_Setup.dmg'
-    },
-    update: ['Opera', 'About Opera'],
-    updateNightly: ['Opera Developer', 'About Opera']
+    }
     // preferences: [[["ui","warn_on_quitting_opera_with_multiple_tabs"], false]]
   },
   safari: {
@@ -122,9 +111,7 @@ const macOSdefaultBrowserSettings = {
       dmgUrlTemplate: 'https://dist.torproject.org/torbrowser/{version}/tor-browser-macos-{version}.dmg',
       // Alpha / early builds, e.g. 16.0a8.
       versionPattern: 'href=["\']?(\\d+\\.\\d+a\\d+)/'
-    },
-    update: ['Tor Browser', 'About Tor Browser'],
-    updateNightly: ['Tor Browser', 'About Tor Browser']
+    }
   },
   ungoogled: {
     name: 'Ungoogled Chromium',
@@ -132,9 +119,7 @@ const macOSdefaultBrowserSettings = {
     privateFlag: 'incognito',
     basedOn: 'chromium',
     brewCask: 'ungoogled-chromium',
-    brewCaskInstalledName: 'Chromium',
-    updateCommand: "mv '/Applications/Ungoogled Chromium.app' '/Applications/Chromium.app' 2>/dev/null || true; brew upgrade --cask ungoogled-chromium --no-quarantine; mv '/Applications/Chromium.app' '/Applications/Ungoogled Chromium.app'",
-    update: ['Ungoogled Chromium', 'About Chromium']
+    brewCaskInstalledName: 'Chromium'
   },
   vivaldi: {
     name: 'Vivaldi',
@@ -147,10 +132,7 @@ const macOSdefaultBrowserSettings = {
     nightlySparkleRelease: {
       appcastUrl: 'https://update.vivaldi.com/update/1.0/snapshot/mac/appcast.xml',
       dmgUrlTemplate: 'https://downloads.vivaldi.com/snapshot/Vivaldi.{version}.universal.dmg'
-    },
-    // Assumes Vivaldi is on automatic updates:
-    update: ['Vivaldi', 'About Vivaldi'],
-    updateNightly: ['Vivaldi Snapshot', 'About Vivaldi']
+    }
   }
 };
 

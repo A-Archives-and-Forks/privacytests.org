@@ -283,26 +283,6 @@ class DesktopBrowser {
     await fsPromises.writeFile(prefsPath, finalString);
   }
 
-  // Update the browser to the latest version.
-  async update () {
-    // For most browsers, we use the "About" menu item to get the browser to check for udpates.
-    const update = this.nightly ? this._defaults.updateNightly : this._defaults.update;
-    const updateCommand = this._defaults.updateCommand;
-    if (update) {
-      console.log({ this_nightly: this._nightly, update });
-      const [menuName, aboutItemName] = update;
-      if (menuName) {
-        await this.launch();
-        exec(`osascript updateBrowser.applescript "${menuName}" "${aboutItemName}"`);
-        // Wait 5 minutes for the update binary to download
-        await sleepMs(300000);
-        await this.kill();
-      }
-    } else if (updateCommand) {
-      execSync(updateCommand);
-    }
-  }
-
   static async setGlobalProxyUsageEnabled (enabled, port = null) {
     if (enabled === proxyUsageState) {
       return;

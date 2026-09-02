@@ -63,7 +63,6 @@ Options:
 * `--categories=misc,https`: limit test categories (`main`, `supplementary`, `misc`, `https`, `session`, `trackingCookies`, `dns`)
 * `--skip=dns`: skip test categories
 * `--hurry`: skip the 60s feature-flag warmup on desktop
-* `--update`: update all installed desktop browsers
 * `--kill`: quit all desktop browsers
 * `--versions`: print installed browser versions
 

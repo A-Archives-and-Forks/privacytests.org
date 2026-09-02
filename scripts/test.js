@@ -662,7 +662,7 @@ const coerceBoolean = (value) => {
 };
 
 const readConfig = (commandLineData) => {
-  const defaultConfig = { aggregate: true, debug: false, update: false };
+  const defaultConfig = { aggregate: true, debug: false };
   if (commandLineData._.length > 0) {
     throw new Error(
       `Unexpected argument: ${commandLineData._[0]}. Use flags only, e.g. --browser=firefox`);
@@ -670,7 +670,7 @@ const readConfig = (commandLineData) => {
   delete commandLineData._;
   const config = Object.assign({}, defaultConfig, commandLineData);
   for (const key of ['android', 'ios', 'browserstack', 'nightly', 'incognito', 'tor',
-    'debug', 'update', 'kill', 'aggregate', 'hurry', 'versions', 'version']) {
+    'debug', 'kill', 'aggregate', 'hurry', 'versions', 'version']) {
     if (key in config) {
       config[key] = coerceBoolean(config[key]);
     }
@@ -767,17 +767,6 @@ const showVersions = async (config) => {
   }
 };
 
-// Update all browsers listed in config.
-const updateAll = async (config) => {
-  const browserSpecs = allDesktopBrowserSpecs(config);
-  await Promise.all(browserSpecs.map(async browserSpec => {
-    const browserObject = new DesktopBrowser(browserSpec);
-    log(browserObject);
-    await browserObject.update();
-  }));
-  await showVersions(config);
-};
-
 const killAll = () => {
   DesktopBrowser.killAll(Object.keys(macOSdefaultBrowserSettings));
 };
@@ -820,11 +809,6 @@ const main = async () => {
       }
     }
     log({ config });
-    if (config.update) {
-      await updateAll(config);
-      process.exit();
-      // Program has ended.
-    }
     if (config.kill) {
       killAll();
       process.exit();

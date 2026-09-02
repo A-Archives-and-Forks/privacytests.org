@@ -10,18 +10,14 @@ const linuxDefaultBrowserSettings = {
     name: 'Brave Browser',
     nightlyName: 'Brave Browser Nightly',
     privateFlag: 'incognito',
-    basedOn: 'chromium',
-    update: ['Brave', 'About Brave'],
-    updateNightly: ['Brave', 'About Brave']
+    basedOn: 'chromium'
   },
   chrome: {
     command: '/usr/bin/google-chrome',
     name: 'Google Chrome',
     nightlyName: 'Google Chrome Nightly',
     privateFlag: 'incognito',
-    basedOn: 'chromium',
-    update: ['Google Chrome', 'About Google Chrome'],
-    updateNightly: ['Google Chrome', 'About Google Chrome']
+    basedOn: 'chromium'
   },
   epiphany: {
     command: '/snap/bin/epiphany',
@@ -35,9 +31,7 @@ const linuxDefaultBrowserSettings = {
     name: 'firefox',
     nightlyName: 'Firefox Nightly',
     privateFlag: 'private-window',
-    basedOn: 'firefox',
-    update: ['Firefox', 'About Firefox'],
-    updateNightly: ['Firefox Nightly', 'About Nightly']
+    basedOn: 'firefox'
   }
 };
 
@@ -47,18 +41,14 @@ const windowsDefaultBrowserSettings = {
     name: 'Brave Browser',
     nightlyName: 'Brave Browser Nightly',
     privateFlag: 'incognito',
-    basedOn: 'chromium',
-    update: ['Brave', 'About Brave'],
-    updateNightly: ['Brave', 'About Brave']
+    basedOn: 'chromium'
   },
   duckduckgo: {
     command: 'C:/Users/arthu_3rura6m/AppData/Local/Microsoft/WindowsApps/DuckDuckGo.exe',
     name: 'DuckDuckGo',
     nightlyName: 'DuckDuckGo Beta',
     privateFlag: 'incognito',
-    basedOn: 'chromium',
-    update: ['DuckDuckGo', 'About DuckDuckGo'],
-    updateNightly: ['DuckDuckGo', 'About DuckDuckGo']
+    basedOn: 'chromium'
   }
 };
 
@@ -168,10 +158,6 @@ class DesktopBrowser {
   async restart () {
     await this.kill();
     await this.launch();
-  }
-
-  async update () {
-    throw new Error('not implemented');
   }
 
   static async setGlobalProxyUsageEnabled (enabled, port = null) {
