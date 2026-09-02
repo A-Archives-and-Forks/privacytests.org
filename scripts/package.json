@@ -55,8 +55,7 @@
   "scripts": {
     "develop": "./node_modules/nodemon/bin/nodemon.js --exec \"node render --live\" -e css,js,md & ./node_modules/@compodoc/live-server/live-server.js --open=../results/latest.html ..",
     "copy-dev": "./node_modules/nodemon/bin/nodemon.js --exec \"node copy\" --watch copy --watch . -e js,md,css --watch ../assets/copy/ --watch ../assets/css/ & ./node_modules/@compodoc/live-server/live-server.js ${WEBSITE_DIR:-../../privacytests-website}/",
-    "collect": "node collect",
-    "publish": "node publish-website.js && node bump"
+    "collect": "node collect"
   },
   "jshintConfig": {
     "esversion": 11,
