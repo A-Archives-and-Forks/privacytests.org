@@ -33,7 +33,7 @@ const header = () => `
       <a href="https://github.com/privacytests/privacytests.org" title="Source code on github.\nIssues are welcome!"><img alt="Github icon" src="${githubDataURI}"></a>
     </div>
     <div class="link-header">
-      <a href="https://twitter.com/privacytests" title="@privacytests on Twitter.\nJoin the discussion!"><img alt="Twitter icon" src="${twitterDataURI}"></a>
+      <a href="https://twitter.com/privacytests" title="@privacytests on X.\nJoin the discussion!"><img alt="X icon" src="${twitterDataURI}"></a>
     </div>
     <div class="link-header">
       <a href="https://mastodon.social/@privacytests" title="@privacytests on Mastodon.\nJoin the discussion!" rel="me"><img alt="Mastodon icon" src="${mastodonDataURI}"></a>
