@@ -1876,7 +1876,7 @@ New Android browser versions are:
 
 ### New test
 
-This issue includes a new test for whether the [Cookie Store API](https://developer.mozilla.org/en-US/docs/Web/API/Cookie_Store_API) can be used to track users across sites in each browser. Thanks to [Steven Englehardt](https://twitter.com/s_englehardt) for creating this test!
+This issue includes a new test for whether the [Cookie Store API](https://developer.mozilla.org/en-US/docs/Web/API/Cookie_Store_API) can be used to track users across sites in each browser. Thanks to [Steven Englehardt](https://x.com/s_englehardt) for creating this test!
 
 ### Updated browsers
 

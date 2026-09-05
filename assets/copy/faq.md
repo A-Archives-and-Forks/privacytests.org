@@ -18,4 +18,4 @@ All browsers on iOS are required by Apple to use the WebKit engine (the basis of
 
 ## How can I contact the author?
 
-You can email me at contact@privacytests.org or tweet me [@privacytests](https://twitter.com/privacytests). You can also submit github issues [here](https://github.com/arthuredelstein/privacytests.org/issues).
+You can email me at contact@privacytests.org or tweet me [@privacytests](https://x.com/privacytests). You can also submit github issues [here](https://github.com/arthuredelstein/privacytests.org/issues).
