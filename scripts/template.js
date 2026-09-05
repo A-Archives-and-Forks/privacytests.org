@@ -7,6 +7,7 @@ const twitterDataURI = dataUriFromFile(`${imageDir}/twitter.svg`);
 const githubDataURI = dataUriFromFile(`${imageDir}/github.svg`);
 const emailDataURI = dataUriFromFile(`${imageDir}/email.svg`);
 const mastodonDataURI = dataUriFromFile(`${imageDir}/mastodon.svg`);
+const blueskyDataURI = dataUriFromFile(`${imageDir}/bluesky.svg`);
 const linkedinDataURI = dataUriFromFile(`${imageDir}/linkedin.svg`);
 const logoDataURI = dataUriFromFile(`${imageDir}/privacyTestsLogo.png`);
 
@@ -36,6 +37,9 @@ const header = () => `
     </div>
     <div class="link-header">
       <a href="https://mastodon.social/@privacytests" title="@privacytests on Mastodon.\nJoin the discussion!" rel="me"><img alt="Mastodon icon" src="${mastodonDataURI}"></a>
+    </div>
+    <div class="link-header">
+      <a href="https://bsky.app/profile/privacytests.org" title="@privacytests.org on Bluesky.\nJoin the discussion!"><img alt="Bluesky icon" src="${blueskyDataURI}"></a>
     </div>
     <div class="link-header">
       <a href="https://www.linkedin.com/company/privacytests-org" title="@privacytests on LinkedIn.\nJoin the discussion!"><img alt="LinkedIn icon" src="${linkedinDataURI}"></a>
