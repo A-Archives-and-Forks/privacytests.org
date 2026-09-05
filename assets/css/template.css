@@ -81,6 +81,19 @@ body {
   font-size: 16px;
 }
 
+.header div.link-header:has(img) {
+  padding: 0px 7px;
+}
+
+/* Extra gap after About, before the social icons */
+.header div.link-header:nth-child(2) {
+  padding-right: 44px;
+}
+
+.header div.link-header:has(img):last-child {
+  padding-left: 44px;
+}
+
 .header div.link-header img {
   width: 20px;
 }
@@ -91,6 +104,15 @@ body {
 .header a {
   text-decoration: none;
   color:black;
+}
+
+.header .links a:hover {
+  color: darkblue;
+}
+
+.header .links a:hover img {
+  /* Tint black SVG icons to darkblue (#00008b) */
+  filter: invert(12%) sepia(98%) saturate(5630%) hue-rotate(240deg) brightness(70%) contrast(125%);
 }
 
 .title {
